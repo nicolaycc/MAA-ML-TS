@@ -163,7 +163,25 @@ distance matrix as it is the cheapest path from (1, 1) to (k, l) in that matrix:
 
 *Insert Dynamic Time Warping Heat map picture*
 
-Se traduce en un problema de encontrar la ruta para llegar de (1,1) a (k,l) con el menor peso (la ruta tiene que pasar por el color menos oscuro), mientras mas oscura la grafica tiene un mayor valor la distancia.
+Se traduce en un problema de encontrar la ruta para llegar de (1,1) a (k,l) con el menor peso (la ruta tiene que pasar por el color menos oscuro), mientras mas oscura la grafica tiene un mayor valor la distancia. El problema es que si las series son muy largas tendré que calcular muchas distancias, es decir, el problema se puede crecer mucho.
 
+The sum of the distances on this path is the DTW metric and can be used with kNN.
 
+La ventaja es que podemos comparar series de diferentes largos de tiempo. Además, si agrego una nueva serie ya tengo mi modelo y no tengo que volver a entrenarlo.
 
+#### Dynamic Time Warping - Discussion
+kNN with DTW has some obvious advantages:
+- we can do classification with variable length time series 
+- we not do not need patterns to be aligned manually before 
+- training kNN is for free, so extendind the DB causes no cost.
+
+On the downside, we have the following:
+- computing DTW can be notoriously expensive,
+- we should not over-estimate the ability of DTW to express similarity.
+
+Muchas veces la distancia no es una buena metrica.. porque depende de varios factores. 
+No esta mirando la forma, sino solo la distancia.
+
+```ad-note
+Puedo tener la misma forma pero solo corrida en el eje Y y la distancia que me da este metodo va a ser mucha. Pese a que sean la misma serie, me dirá que no se parecen solo porque la distancia es grande.
+```
